@@ -1,0 +1,34 @@
+CREATE TABLE Executor (
+    id_executor SERIAL PRIMARY KEY,
+    nickname VARCHAR(100) NOT NULL,
+    first_name VARCHAR(40) NOT NULL,
+    last_name VARCHAR(40) NOT NULL);
+
+CREATE TABLE Genre (
+    id_genre SERIAL PRIMARY KEY,
+    name VARCHAR(40));
+
+CREATE TABLE Executor_genre (
+    id_executor_genre SERIAL PRIMARY KEY,
+    executor INTEGER NOT NULL REFERENCES Executor(id_executor),
+    genre INTEGER NOT NULL REFERENCES Genre(id_genre));
+
+CREATE TABLE Collection (
+    id_collection SERIAL PRIMARY KEY,
+    name VARCHAR(40) NOT NULL,
+    release_date DATA NOT NULL);
+
+CREATE TABLE Song (
+    id_song SERIAL PRIMARY KEY,
+    duration TIME NOT NULL,
+    collections INTEGER REFERENCES Collection(id_collection))
+
+CREATE TABLE Album (
+    id_album SERIAL PRIMARY KEY,
+    name VARCHAR(40) NOT NULL,
+    release_date DATA NOT NULL.
+    songs INTEGER REFERENCES Song(id_song))
+
+CREATE TABLE Executor_album (
+    executor INTEGER NOT NULL REFERENCES Executor(id_executor),
+    album INTEGER NOT NULL REFERENCES Album(id_album))
