@@ -1,39 +1,59 @@
-CREATE TABLE Executor (
-    id_executor SERIAL PRIMARY KEY,
-    nickname VARCHAR(100) UNIQUE NOT NULL,
-    first_name VARCHAR(40) NOT NULL,
-    last_name VARCHAR(40) NOT NULL);
+CREATE TABLE IF NOT EXISTS Executor (
+    PRIMARY KEY (id_executor),
+    id_executor SERIAL,
+    nickname    VARCHAR(100)    UNIQUE NOT NULL,
+    first_name  VARCHAR(40)     NOT NULL,
+    last_name   VARCHAR(40)     NOT NULL
+);
 
-CREATE TABLE Genre (
-    id_genre SERIAL PRIMARY KEY,
-    name VARCHAR(40) UNIQUE NOT NULL);
+CREATE TABLE IF NOT EXISTS Genre (
+    PRIMARY KEY (id_genre),
+    id_genre    SERIAL,
+    name        VARCHAR(40)     UNIQUE NOT NULL
+);
 
-CREATE TABLE Executor_genre (
-    id_executor_genre SERIAL PRIMARY KEY,
-    executor INTEGER NOT NULL REFERENCES Executor(id_executor),
-    genre INTEGER NOT NULL REFERENCES Genre(id_genre));
+CREATE TABLE IF NOT EXISTS Executor_genre (
+    PRIMARY KEY (id_executor_genre),
+    id_executor_genre   SERIAL,
+    executor_id            INTEGER NOT NULL REFERENCES Executor(id_executor),
+    genre_id               INTEGER NOT NULL REFERENCES Genre(id_genre)
+);
 
-CREATE TABLE Collection (
-    id_collection SERIAL PRIMARY KEY,
-    name VARCHAR(40) NOT NULL,
-    release_date DATE DEFAULT CURRENT_DATE CHECK (release_date <= CURRENT_DATE));
+CREATE TABLE IF NOT EXISTS Collection (
+    PRIMARY KEY (id_collection),
+    id_collection   SERIAL,
+    name            VARCHAR(40) NOT NULL,
+    release_date    DATE        DEFAULT     CURRENT_DATE,
+                    CHECK (release_date <= CURRENT_DATE)
+);
 
-CREATE TABLE Album (
-    id_album SERIAL PRIMARY KEY,
-    name VARCHAR(40) NOT NULL,
-    release_date DATE DEFAULT CURRENT_DATE CHECK (release_date <= CURRENT_DATE));
+CREATE TABLE IF NOT EXISTS Album (
+    PRIMARY KEY (id_album),
+    id_album        SERIAL,
+    name            VARCHAR(40)    NOT NULL,
+    release_date    DATE           DEFAULT    CURRENT_DATE,
+                    CHECK          (release_date <= CURRENT_DATE)
+);
 
-CREATE TABLE Song (
-    id_song SERIAL PRIMARY KEY,
-    duration INTEGER NOT NULL CHECK (duration > 0),
-    albums INTEGER NOT NULL REFERENCES Album(id_album));
+CREATE TABLE IF NOT EXISTS Song (
+    PRIMARY KEY (id_song),
+    id_song     SERIAL,
+    name        VARCHAR(40),
+    duration    INTEGER     NOT NULL,
+    albums_id   INTEGER     NOT NULL    REFERENCES Album(id_album),
+                CHECK (duration > 0)
+);
 
-CREATE TABLE Songs_collections (
-    id_songs_collections SERIAL PRIMARY KEY,
-    song INTEGER NOT NULL REFERENCES Song(id_song),
-    collection INTEGER NOT NULL REFERENCES Collection(id_collection));
+CREATE TABLE IF NOT EXISTS Songs_collections (
+    PRIMARY KEY (id_songs_collections),
+    id_songs_collections    SERIAL,
+    song_id                 INTEGER NOT NULL REFERENCES Song(id_song),
+    collection_id           INTEGER NOT NULL REFERENCES Collection(id_collection)
+);
 
-CREATE TABLE Executor_album (
-    id_executor_album SERIAL PRIMARY KEY,
-    executor INTEGER NOT NULL REFERENCES Executor(id_executor),
-    album INTEGER NOT NULL REFERENCES Album(id_album));
+CREATE TABLE IF NOT EXISTS Executor_album (
+    PRIMARY KEY (id_executor_album),
+    id_executor_album   SERIAL,
+    executor_id         INTEGER NOT NULL REFERENCES Executor(id_executor),
+    album_id            INTEGER NOT NULL REFERENCES Album(id_album)
+);
