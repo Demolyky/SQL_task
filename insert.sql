@@ -21,23 +21,25 @@ VALUES
     (8, 'Three Days Grace', 'Nill', 'Sanderson');
 
 INSERT INTO album (name, release_date) VALUES ('Вода', '01.01.2017');
-INSERT INTO song (name, duration, albums_id) VALUES ('Облака', '235', lastval());
+INSERT INTO song (name, duration, albums_id) VALUES ('Облака', 235, lastval());
 INSERT INTO album (name, release_date) VALUES ('Эхопарк', '01.01.2015');
-INSERT INTO song (name, duration, albums_id) VALUES ('Выше домов', '288', lastval());
+INSERT INTO song (name, duration, albums_id) VALUES ('Выше домов', 288, lastval());
 INSERT INTO album (name, release_date) VALUES ('Вояжер-1', '01.01.2020');
-INSERT INTO song (name, duration, albums_id) VALUES ('Вояжер-1', '214', lastval());
+INSERT INTO song (name, duration, albums_id) VALUES ('Вояжер-1', 214, lastval());
 INSERT INTO album (name, release_date) VALUES ('Время люить', '01.01.2020');
-INSERT INTO song (name, duration, albums_id) VALUES ('Ключи', '191', lastval());
+INSERT INTO song (name, duration, albums_id) VALUES ('Ключи', 191, lastval());
 INSERT INTO album (name, release_date) VALUES ('Meteora', '01.01.2003');
-INSERT INTO song (name, duration, albums_id) VALUES ('Numb', '187', lastval());
+INSERT INTO song (name, duration, albums_id) VALUES ('Numb', 187, lastval());
 INSERT INTO album (name, release_date) VALUES ('Красота', '01.01.2003');
-INSERT INTO song (name, duration, albums_id) VALUES ('Стена', '267', lastval());
+INSERT INTO song (name, duration, albums_id) VALUES ('Стена', 267, lastval());
 INSERT INTO album (name, release_date) VALUES ('100 лет одиночества', '01.01.2017');
-INSERT INTO song (name, duration, albums_id) VALUES ('100 лет одиночества', '218', lastval());
+INSERT INTO song (name, duration, albums_id) VALUES ('100 лет одиночества', 218, lastval());
 INSERT INTO album (name, release_date) VALUES ('Синоптик', '01.01.2017');
-INSERT INTO song (name, duration, albums_id) VALUES ('Синоптик', '356', lastval());
+INSERT INTO song (name, duration, albums_id) VALUES ('Синоптик', 356, lastval());
 INSERT INTO album (name, release_date) VALUES ('Human', '01.01.2015');
-INSERT INTO song (name, duration, albums_id) VALUES ('I Am Machine', '200', lastval());
+INSERT INTO song (name, duration, albums_id) VALUES ('I Am Machine', 200, lastval());
+INSERT INTO album (name, release_date) VALUES ('The Greatest Hits. Vol. 1', '01.02.2018');
+INSERT INTO song (name, duration, albums_id) VALUES ('Мое море', 153, lastval());
 
 INSERT INTO song (name, duration, albums_id)
 VALUES  ('Навсегда', '200', 2),
@@ -56,7 +58,8 @@ INSERT INTO executor_album (executor_id, album_id)
             (4, 6),
             (5, 7),
             (7, 8),
-            (8, 9);
+            (8, 9),
+            (1, 10);
 
 INSERT INTO executor_genre (executor_id, genre_id)
     VALUES  (1, 1),
