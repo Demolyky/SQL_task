@@ -27,34 +27,36 @@ WHERE   name LIKE '%мой%' or name LIKE '%my%' or name LIKE '%Мое%';
 
 /*ЗАДАНИЕ 4. Сложные запросы*/
 /*количество исполнителей в каждом жанре;*/
-SELECT name, COUNT(id_executor_genre) FROM genre
-LEFT JOIN executor_genre eg ON genre.id_genre = eg.genre_id
-GROUP BY genre.name;
+SELECT Genre.name AS Название, COUNT(id_executor_genre) AS "Число исполнителей"
+FROM Genre
+LEFT JOIN executor_genre eg ON Genre.id_genre = eg.genre_id
+GROUP BY Genre.name;
+
 
 /*количество треков, вошедших в альбомы 2019-2020 годов;*/
-SELECT album.name, COUNT(id_album) FROM album
-LEFT JOIN song s on album.id_album = s.albums_id
-WHERE album.release_date > '01.01.2019' AND album.release_date < '12.31.2020'
-GROUP BY album.name;
+SELECT Album.name, COUNT(id_album) FROM Album
+LEFT JOIN Song s on Album.id_album = s.albums_id
+WHERE Album.release_date > '01.01.2019' AND Album.release_date < '12.31.2020'
+GROUP BY Album.name;
 
 /*средняя продолжительность треков по каждому альбому;*/
-SELECT album.name, AVG(duration) FROM album
-JOIN song s on album.id_album = s.albums_id
-GROUP BY album.name
-ORDER BY album.name;
+SELECT Album.name, AVG(duration) FROM Album
+JOIN Song s on Album.id_album = s.albums_id
+GROUP BY Album.name
+ORDER BY Album.name;
 
 /*все исполнители, которые не выпустили альбомы в 2020 году;*/
-SELECT executor.nickname FROM executor
+SELECT Executor.nickname FROM Executor
 JOIN
-    (SELECT executor_album.id_executor_album, executor_album.executor_id executors
-     FROM executor_album
-     JOIN album a ON executor_album.album_id = a.id_album
-     WHERE a.release_date NOT IN ('01.01.2020')) AS al ON executor.id_executor = al.executors
-GROUP BY executor.nickname;
+    (SELECT Executor_album.id_executor_album, Executor_album.executor_id executors
+     FROM Executor_album
+     JOIN Album a ON Executor_album.album_id = a.id_album
+     WHERE a.release_date NOT IN ('01.01.2020')) AS al ON Executor.id_executor = al.executors
+GROUP BY Executor.nickname;
 
 /*наименование треков, которые не входят в сборники;*/
-SELECT song.name FROM song
-FULL JOIN songs_collections sc ON song.id_song = sc.song_id
+SELECT Song.name FROM Song
+FULL JOIN Songs_collections sc ON Song.id_song = sc.song_id
 WHERE sc.id_songs_collections IS NULL;
 
 /*название альбомов, содержащих наименьшее количество треков.*/
