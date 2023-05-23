@@ -34,10 +34,9 @@ GROUP BY Genre.name;
 
 
 /*количество треков, вошедших в альбомы 2019-2020 годов;*/
-SELECT Album.name, COUNT(id_album) FROM Album
-LEFT JOIN Song s on Album.id_album = s.albums_id
-WHERE Album.release_date > '01.01.2019' AND Album.release_date < '12.31.2020'
-GROUP BY Album.name;
+SELECT COUNT(id_album) FROM Album /* Количество айди треков из таблицы треков */
+JOIN Song s ON Album.id_album = s.albums_id /* Делаем объединение от таблицы треков к альбомам */
+WHERE Album.release_date BETWEEN '01.01.2019' and '12.31.2020'; /* Где год альбома находится в требуемом промежутке */
 
 /*средняя продолжительность треков по каждому альбому;*/
 SELECT Album.name, AVG(duration) FROM Album
@@ -46,13 +45,15 @@ GROUP BY Album.name
 ORDER BY Album.name;
 
 /*все исполнители, которые не выпустили альбомы в 2020 году;*/
-SELECT Executor.nickname FROM Executor
-JOIN
-    (SELECT Executor_album.id_executor_album, Executor_album.executor_id executors
-     FROM Executor_album
-     JOIN Album a ON Executor_album.album_id = a.id_album
-     WHERE a.release_date NOT IN ('01.01.2020')) AS al ON Executor.id_executor = al.executors
-GROUP BY Executor.nickname;
+SELECT Executor.nickname
+FROM Executor
+WHERE Executor.nickname NOT IN (
+    SELECT Executor.nickname
+    FROM Executor
+    JOIN Executor_album ON Executor.id_executor = Executor_album.executor_id
+    JOIN Album ON Executor_album.album_id = Album.id_album
+    WHERE EXTRACT(YEAR FROM Album.release_date) = 2020
+);
 
 /*наименование треков, которые не входят в сборники;*/
 SELECT Song.name FROM Song
@@ -89,10 +90,14 @@ SELECT Album.name
 FROM Album
 JOIN Song ON Song.albums_id = Album.id_album
 JOIN Executor_album ON Executor_album.album_id = Album.id_album
-JOIN Executor_genre ON Executor_genre.executor_id = Executor_album.executor_id
-JOIN Genre ON Genre.id_genre = Executor_genre.genre_id
-GROUP BY Album.id_album, Album.name
-HAVING COUNT(DISTINCT Executor_genre.genre_id) > 1;
+JOIN (
+    SELECT Executor_genre.executor_id
+    FROM Executor_genre
+    GROUP BY Executor_genre.executor_id
+    HAVING COUNT(DISTINCT Executor_genre.genre_id) > 1
+) AS multi_genre_executors ON multi_genre_executors.executor_id = Executor_album.executor_id
+GROUP BY Album.id_album, Album.name;
+
 
 -- Исполнитель или исполнители, написавшие самый короткий по продолжительности трек, — теоретически таких треков может быть несколько.
 SELECT DISTINCT Executor.nickname
